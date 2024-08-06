@@ -131,7 +131,7 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'accounts.User'
 
-DATABASES['default'] = "postgresql://foodhub_7o4o_user:7kGnq1CbpNHdFXUlJ6JTM1wjoCqphBnZ@dpg-cqosqpogph6c73fc22n0-a.singapore-postgres.render.com/foodhub_7o4o"
+# DATABASES['default'] = "postgresql://foodhub_7o4o_user:7kGnq1CbpNHdFXUlJ6JTM1wjoCqphBnZ@dpg-cqosqpogph6c73fc22n0-a.singapore-postgres.render.com/foodhub_7o4o"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
