@@ -8,7 +8,6 @@ https://docs.djangoproject.com/en/5.0/howto/deployment/wsgi/
 """
 
 import os
-from whitenoise import WhiteNoise
 
 from ecommerce import wsgi
 
