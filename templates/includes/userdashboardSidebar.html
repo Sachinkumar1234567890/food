@@ -1,0 +1,14 @@
+
+<div class="user-account-nav user-account-sidebar">
+    <div class="user-nav-list">
+        <ul>
+            <li class="active"><a href="#"><i class="icon-dashboard3"></i>Dashboard</a></li>
+            <li><a href="restaurant-restaurant.html"><i class='bx bx-star'></i></i>My Reviews</a></li>
+            <li><a href="restaurant-orders.html"><i class="icon-add_shopping_cart"></i>My Orders</a></li>
+            <li><a href="restaurant-earnings.html"><i class='bx bx-heart'></i>Favorites</a></li>
+            <li><a href="restaurant-statement.html"><i class='bx bx-cog'></i></i>Settings</a></li>
+            <li><a href="{% url 'reset_password' %}"><i class="icon-unlock-alt"></i>Change Password</a></li>
+            <li><a class="logout-btn" href="{% url 'user_logout' %}"><i class="icon-log-out"></i>Logout</a></li>
+        </ul>
+    </div>
+</div>

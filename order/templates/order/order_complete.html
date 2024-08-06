@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+<br><div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">
+                <img src="{% static 'logo/FoodHub_logo.png' %}" width="100px" height="100px" alt="FoodHub">
+                <div class="col-sm-6 text-right">
+                    {{ order.address }},<br>
+                    {{ order.state }},
+                    {{ order.pin_code }}
+                </div>
+            </h5>
+        </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5 class="cart-headings">Order Date</h5>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="cart-headings">Name</h5>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="cart-headings">Order Number</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <p>{{ order_date }}</p>
+                </div>
+                <div class="col-md-4">
+                    <p>{{ order_username }}</p>
+                </div>
+                <div class="col-md-4">
+                    <p>{{ order_number }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Ordered Items</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Food Image</th>
+                        <th>Food Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in ordered_items %}
+                    <tr>
+                        <td><img src="{{ item.fooditem.images.url }}" alt="{{ item.fooditem.food_name }}" style="max-width: 50px;"></td>
+                        <td><p>{{ item.fooditem }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.price }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-6">
+                    <img src="{% static 'logo/paidstamp.png' %}" width="200px" height="150px" alt="Paid Stamp">
+                </div>
+                <div class="col-sm-6 text-right">
+                    <h5 class="card-title">Additional Charges</h5>
+                    <p>CGST: {{ cgst }}</p>
+                    <p>SGST: {{ sgst }}</p>
+                    {% if delivery_charges == 0 %}
+                        <p>Delivery Charges:<span style="color: red;">Free</span></p>
+                     {% else %}
+                        <p>Delivery Charges: {{ delivery_charges }}</p>
+                    {% endif %}
+                    <h7>Total Amount:{{ total_amount }}</h7>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="text-center">
+            <p>Thank you for choosing FoodHub! For any further inquiries, please contact us at 011 2262111.</p>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

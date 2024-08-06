@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+
+<div class="main-section">
+	{% if ven_profile.cover_photo %}
+		<div class="page-section restaurant-detail-image-section" style=" background: url({{ven_profile.cover_photo.url}}) no-repeat scroll 0 0 / cover;">
+	{% else %}
+		<div class="page-section restaurant-detail-image-section" style=" background: url({% static 'images\default_cover.jpg'%}) no-repeat scroll 0 0 / cover;">
+	{% endif %}
+	<!-- Container Start -->
+	<div class="container">
+		<!-- Row Start -->
+		<div class="row">
+			<!-- Column Start -->
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<div class="company-info-detail">
+					<div class="company-info">
+						<div class="img-holder">
+							<figure>
+								{% if ven_profile.profile_picture %}
+								<img src="{{ ven_profile.profile_picture.url }}" alt="no img">
+								{% else %}
+								<img src="{% static 'images/default_user.jpeg' %}" alt="">
+								{% endif %}
+							
+							</figure>
+						</div>
+						<div class="text-holder">
+							<span class="restaurant-title">{{ vendor.restaurant_name}}</span>
+							<div class="text">
+								<i class="icon-location"></i>
+								<p>{{ven_profile.address}}, {{ven_profile.city}} - {{ven_profile.pincode}}.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- Column End -->
+		</div>
+		<!-- Row End -->
+	</div>
+	<!-- Container End -->
+	</div>
+	</div>
+
+	<div class="page-section account-header buyer-logged-in">
+		<div class="container">
+			<div class="row">
+				<!-- sidebar start -->
+				<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                	<div class="user-account-nav user-account-sidebar">
+                    	<div class="user-nav-list">
+                        	<h3>&nbsp;Food Categories</h3>
+                        	<ul>
+                        		{% for i in category %}
+                            	<li>
+									<a href="#">{{ i.category_name}}</a>
+								</li>
+                        		{% endfor %}
+                        	</ul>
+                    	</div>
+                	</div>            
+				</div>
+			<!-- sidebar end -->
+			<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+				<div class="user-dashboard loader-holder">
+					<div class="user-holder">
+                        <h1>Menu</h1>
+						<hr>
+						{% for cat in category %}
+							<div class="card mb-3" style="border: none;">
+								<h2>{{cat}}</h2>
+								{% for food in cat.fooditems.all %}
+								<div class="container"><br>
+									<div class="card card-body" >
+										<div class="row g-0">
+											<div class="col-md-4">
+											  <img src="{{food.images.url}}" height="150px" width="150px" alt="...">
+											</div>
+											<div class="col-md-5">
+												<div class="card-body">
+													<h5 class="card-title">{{ food.food_name }}</h5>
+													<p class="card-text">{{ food.description }}</p>
+												</div>
+											</div>
+											<div class="col-md-3" style="border:  2px rgb(255, 111, 111) solid;">
+												<div class="card-body" >
+													<h5 class="card-title" >Price</h5>
+													<p class="card-text" >Rs. {{ food.price }}/-</p>
+													<div style="border:2px rgb(51, 206, 249) solid; width: 150px;display: flex;align-content:space-evenly;">
+
+														<a style="width: 50px;" href="{% url 'removefromcart' pk=food.id rest_id=rest_id %}" class="btn btn-outline-danger">
+															<i class='bx bx-minus'></i>
+														</a>
+														{% for cart_details in cart %}
+															{% if cart_details.fooditem.id == food.id %}
+														
+																	<h3 style="width: 50px;display: flex;border: 1px gr;">
+																	{{cart_details.quantity}}
+																	</h3>
+															
+															{% endif %}
+														{% endfor %}														
+														<a style="width: 50px;" href="{% url 'addtocart' pk=food.id rest_id=rest_id %}" class="btn btn-outline-success">
+														<i class='bx bx-plus'></i>
+														</a>
+													</div>
+												</div>	
+											</div>
+											</div>
+										</div>
+									</div><br>
+								{% endfor %}
+							  </div>
+						{% endfor %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div>
+    {% include "includes/alerts.html" %}
+</div>
+
+{% endblock%}
+

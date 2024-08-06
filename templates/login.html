@@ -1,0 +1,54 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+<div class="main-section" class="page-section nopadding cs-nomargin" style="margin: 0px;padding-top: 60px;padding-bottom: 60px;">
+    <div class="container">
+        <div class="row">
+            <div class="col" >
+                <div class="user-dashboard loader-holder" style="width:550px;">
+                    <h4 class="text-center" style="margin-bottom: 0;">LOGIN HERE</h4>
+                    <p class="text-center">Please login here and explore more....!</p>
+                    <hr>
+                    <div id="restaurant-sets-holder">
+                        <form class="form-fields-set foodbakery-dev-restaurant-form" method="POST" action="">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col">
+                                    <ul>
+                                        <li>
+                                            <div class="col-md-10">
+                                                <label>Email</label><input type="email" name="email" placeholder="Enter your email" required> 
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="col-md-10">
+                                                <label>Password</label><input type="password" name="password" placeholder="Enter your password"  required>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="col-md-10">
+                                                    <a  href="{% url 'reset_password' %}" text-decoration="none">Forgot password <i class='bx bxs-key'></i></a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="col-md-10" style="margin: 0px;">
+                                                <div class="payment-holder">
+                                                    <input type="submit" value="LOGIN" id="btn-next-restaurant-information" class="bgcolor" style="margin: 0px;">
+                                                </div>
+                                            </div> 
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div>
+                                {% include 'includes/alerts.html' %}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

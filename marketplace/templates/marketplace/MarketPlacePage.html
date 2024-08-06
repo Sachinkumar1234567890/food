@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+<br>
+
+<div class="d-flex justify-content-center">
+  <form class="d-flex justify-content-center w-50" method="GET">
+      {% csrf_token %}
+      <div style="width: 500px;display: flex;">
+        <input class="form-control" type="search" name="S" placeholder="Search Your Restaurant" aria-label="Search" style="border-top-right-radius: 0px;border-bottom-right-radius:0px;border: none;">
+        <button type="submit" style="background-color: white;border: none;width:40px ;"><i class='bx bx-search-alt-2' style="font-size: 30px;margin-top: 5px;"></i></button>
+      </div>
+  </form>
+</div>
+
+<div class="container"><br>
+    <h1>{{ count }} Active Restaurant</h1>
+
+    {% for i in ven_data %}
+    <div class="card card-body" style="background-color:transparent;border: none;">
+      <div class="card mb-3" >
+        <div class="row g-0">
+          <div class="col-md-4">
+                {% for j in ven_profile %}
+                {% if i.user == j.user%}
+                {% if j.profile_picture %}
+                <img src="{{  j.profile_picture.url }}" class="img-fluid rounded-start" alt="...">
+                {% else %}
+                <img src="{% static 'images/default_user.jpeg' %}" class="img-fluid rounded-start" alt="...">
+                {% endif %}
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <a href=""><h5 class="card-title">{{ i.restaurant_name }}</h5></a>
+                  <p class="card-text">{{j.address}}, {{j.city}} - {{j.pincode}}.</p>
+                  {%endif%}
+                  {% endfor %}
+                  <a href="{% url 'restaurantmenu' pk=i.id%}" class="btn btn-info" style="margin-right: 0px;">View Menu>></a>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    {% endfor %}
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% load mathfilters %}
+{% load static %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left side of the page -->
+        <div class="col-sm-8">
+            <!-- Cart Item Card -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Cart Items</h5>
+                    
+                    <div class="container">
+                        <div class="row justify-content-left">
+                            <div class="col-sm-10 mb-4 mb-sm-0">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <h5 class="cart-headings">Image</h5>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <h5 class="cart-headings">Name</h5>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <h5 class="cart-headings">Quantity</h5>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <h5 class="cart-headings">Price per Quantity</h5>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <h5 class="cart-headings">Total Price</h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% for item in cart_items %}
+                            {% for food_item in food_items %}
+                            {% if food_item.id == item.fooditem_id %}
+                            
+                            <div class="col-md-10">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <img src="{% if food_item.images %}{{ food_item.images.url }}{% else %}{% static 'images/profile.jpeg' %}{% endif %}" class="img-responsive" alt="No images" height="50px" width="70px" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <h5>{{ food_item.food_name }}</h5>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <h6>{{ item.quantity }}</h6>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <h6>{{ food_item.price }}</h6>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <h6>{{ item.quantity|mul:food_item.price }}</h6>
+                                            </div>
+                                            <div class="col-md-1">
+                                           
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Amount Card -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Amount</h5>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5>SGST (6%)</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>CGST (6%)</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Delivery Charges</h5>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>Total</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h6>{{ sgst }}</h6>
+                        </div>
+                        <div class="col-md-3">
+                            <h6>{{ cgst }}</h6>
+                        </div>
+                        <div class="col-md-3">
+                            <h6>{% if delivery_charge == 0 %}
+                                <p>Free Delivery</p>
+                                {% else %}
+                                {{ delivery_charge }}
+                                {% endif %}</h6>
+                        </div>
+                        <div class="col-md-3">
+                            <h5>{{ total_amount }}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Proceed to PAY -->
+            <div class="card" >
+             <div class="card-body">
+              <form id="payment-form" action="{% url 'proceed' %}" method="POST"> 
+                    {% csrf_token %}
+                 
+                    <div class="row justify-content-left">
+                        <div class="col-md-3">
+                        </div>
+                        <div class="col-md-3">
+                        </div>
+                        
+                    </div>
+                    <center>
+                        <div >
+                            <a href="{% url 'proceed' %}"  class="btn btn-danger" id="pay-btn"">Proceed to Pay</a>
+                            <!-- Razorpay's Javascript code. -->
+                            <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+                            <script>
+                                var options = {
+                                
+                                // Enter the Key ID generated from the Dashboard
+                                key: "{{ RAZOR_KEY_ID }}", 
+                                
+                                // Amount is in currency subunits.
+                                // Default currency is INR. Hence, 
+                                // 50000 refers to 50000 paise
+                                amount: "{{ amount }}", 
+                                currency: "INR",
+                                
+                                // Your/store name.
+                                name: "{{ name }}", 
+                                
+                                // Pass the `id` obtained in the response of Step 1
+                                order_id: "{{ razorpay_order_id }}", 
+                                callback_url: "{{ callback_url }}",
+                                };
+                                
+                                // initialise razorpay with the options.
+                                var rzp1 = new Razorpay(options);
+                                
+                                // add event listener to the payment button.
+                                document.getElementById("pay-btn").onclick = function (e) {
+                                rzp1.open();
+                                e.preventDefault();
+                                };
+                            </script>
+                            <label for="razorpay">
+                                <img src="{% static 'logo/razorpay.png' %}" width="70px" height="40px" alt="Razorpay Logo">
+                            </label>
+                        </div>
+                        
+                   </center>
+                </div>
+             </form> 
+            </div>
+        </div>
+
+        <!-- Right side of the page -->
+        <div class="col-sm-4">
+            {{ address }}
+            <!-- Billing Address Card -->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Billing Address</h5><br>
+                    {{ add.first_name }} {{ add.last_name }}
+                    {{ add.address }}
+                    {{ add.city }}
+                    {{ add.state }}
+
+                    <!-- <form action="{% url 'proceed' %}" method="POST" id="submit">
+                        {% csrf_token %} -->
+                        <div class="mb-3">
+                            <div class="field-holder" name="fn">
+                                <label>First Name</label> {{ form.first_name }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="field-holder">
+                                <label>Last Name</label>{{ form.last_name }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="field-holder">
+                                <label>Email</label>{{ form.email }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="field-holder" name="phone">
+                                <label>Phone</label>{{ form.phone }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="field-holder">
+                                <label>Address</label>{{ form.address }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="field-holder">
+                                <label>City</label>{{ form.city }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="field-holder">
+                                <label>State</label>{{ form.state }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="field-holder">
+                                <label>Zip Code</label>{{ form.pin_code }}
+                            </div>
+                        </div>
+                        <div class="field-holder">
+                            <div class="payment-holder">
+                                <!-- <input type="submit" value="ADD" id="btn-next-restaurant-information" class="bgcolor"> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    
+
+
+{% endblock %}

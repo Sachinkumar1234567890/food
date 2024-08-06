@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="main-section">
+	{% if profile.cover_photo %}
+
+			<div class="page-section restaurant-detail-image-section" style=" background: url({{profile.cover_photo.url}}) no-repeat scroll 0 0 / cover;">
+	{% else %}
+	<div class="page-section restaurant-detail-image-section" style=" background: url({% static 'images\default_cover.jpg'%}) no-repeat scroll 0 0 / cover;">
+	{% endif %}
+				<!-- Container Start -->
+				<div class="container">
+					<!-- Row Start -->
+					<div class="row">
+						<!-- Column Start -->
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+							<div class="company-info-detail">
+								<div class="company-info">
+									<div class="img-holder">
+										<figure>
+											{% if profile.cover_photo %}
+											<img src="{{ profile.profile_picture.url }}" alt="no img">
+											{% else %}
+											<img src="{% static 'images/default_user.jpeg' %}" alt="">
+											{% endif %}
+
+										</figure>
+									</div>
+
+									<div class="text-holder">
+										<span class="restaurant-title">{{ vendor.restaurant_name}}  </span>
+										<div class="text">
+											<i class="icon-location"></i>
+											<p>{{profile.address}}, {{profile.city}} - {{profile.pincode}}.</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Column End -->
+					</div>
+					<!-- Row End -->
+				</div>
+				<!-- Container End -->
+			</div>
+			<div class="page-section account-header buyer-logged-in">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+						<!-- sidebar start -->
+            {% include 'includes\vendordashboardSidebar.html'%}
+            <!-- sidebar end -->
+						</div>
+						<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+								<div class="user-holder">
+									<div class="container">
+										<div class="row">
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+												<div class="user-dashboard loader-holder">
+													<div class="user-holder">
+												<h4 class="text-center" style="margin-bottom: 0;">ADD NEW CATEGORY</h4>
+												<p class="text-center">Add new category to your restaurant....!</p>
+												<hr>
+												<div id="restaurant-sets-holder">
+													<form class="form-fields-set foodbakery-dev-restaurant-form" method="POST" action="{% url 'addcategory' %}" enctype="multipart/form-data">
+														{% csrf_token %}
+														<ul class="register-add-restaurant-tab-container restaurant-information-tab-container">
+															<li>
+																<div class="row">
+																	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+																		<div class="row">
+																			<ul >
+																				
+                                                                                <li>
+																					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+																						<div class="field-holder">
+																							<label>Category name</label>{{ form.category_name }}
+																						</div>
+																					</div>
+																				</li>
+																				<li>
+																					<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+																						<div class="field-holder">
+																							<label>Description</label>{{ form.description }}
+																						</div>
+																					</div>
+																					
+																				</li>
+																			</ul>
+																		</div>
+																	</div>
+																</div>
+															</li>
+															<li>
+															
+															<div>
+																{% for field in form %}
+																	{% if field.errors %}
+																		{% for error in field.errors %}
+																			<li style="color: red;">{{ field.errors }}</li>
+																		{% endfor %}
+																	{% endif %}
+																{% endfor %}
+																<li style="color: red;">{{ form.non_field_errors }}</li>
+															</div>
+																<div class="row">
+																	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+																		<div class="field-holder">
+																			<div class="payment-holder">
+																				<input type="submit" value="Add" id="btn-next-restaurant-information" class="bgcolor">
+																			</div>
+																
+																		</div>
+																	</div>
+																</div>
+																<div>
+																	{% include 'includes/alerts.html' %}
+																</div>
+															</li>
+														</ul>
+													</form>
+												</div>
+											</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+    <div>
+        {% include "includes/alerts.html" %}
+    </div>
+</div>
+{% endblock%}
+

@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+
+<div class="main-section"><br>
+
+<!-- displaying cart items -->
+<div class="container d-flex " style="background-color: white;"><br>
+    
+    <div style="width: 50%;">
+
+        {% for item in cart_items %}
+        {% if email == item.user.email %}
+        <div class="card mb-3" style="height: 100px; margin-top: 10px;">
+            <div class="row g-0">
+              <div class="col-md-2">
+                <img src="{{ item.fooditem.images.url }}" class="" alt="..." height="100px" width="100px" style="border-radius: 5px;"> 
+              </div>
+              <div class="col-md-8" style="margin-left: 15px;">
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                        <th>Food Name</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        </tr>
+                        <tr>
+                        <td>{{ item.fooditem }}</td>
+                        <td>{{ item.quantity}}</td>
+                        <td>{{ item.total }}</td>
+    
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            </div>
+        </div>
+        
+
+        {% endif %}
+
+    
+    {% endfor %}
+
+    <div class="card card-body">
+        <table >
+            <tr>
+                <th>Price Details</th>
+            </tr>
+            <tr class="w-25">
+                <td style="width: 200px;">CGST<i class='bx bx-info-circle'></i></td>
+                <td>6%</td>
+                <td  style="margin-top: 0px;">{{gst}}</td>
+            </tr>
+            <tr class="w-25">
+                <td style="width: 200px;">SGST<i class='bx bx-info-circle'></i></td>
+                <td style="width: 100px;">6%</td>
+                <td>{{gst}}</td>
+            </tr>
+            <tr style="width: 100px;">
+                <td colspan="2" style="width: 100px;">Delivery Charge</td>
+                <td >{% if delivery_fee == 0 %}
+                    Free
+                    {% else %}
+                    {{delivery_fee}}
+                    {% endif %} 
+                </td>
+            </tr>
+            <tr style="width: 100px;">
+                <td colspan="2" style="width: 100px;"><h5>Total Amount</h5></td>
+                <td><h5>{{ grand_total}}</h5></td>
+            </tr>
+        </table>
+        <h1>Select payment method</h1>
+        <div style="display: flex;">
+            <div>
+                <input type="radio" name="pay" id="razorpay" value="razorpay">
+                <label for="razorpay"><img src="{% static 'logo/razorpay.png' %}" alt="" height="50px" width="100px">
+                </label>&nbsp;&nbsp;
+            </div>
+            <div>
+                <input type="radio" name="pay" id="paypal" value="paypal">
+                <label for="paypal"><img src="{% static 'logo/paypal.png' %}" alt="" height="50px" width="100px">
+                </label>            
+            </div>
+            <button type="submit" class="btn btn-success w-50">Proceed To Pay</button> 
+        </div>
+    </div>
+    </div>
+    <div>
+
+<!-- address form start -->
+<div class="main-section" class="page-section nopadding cs-nomargin" style="margin: 0px;padding-bottom: 60px;">
+    <div class="container">
+        <div class="row">
+            <div class="col" >
+                <div class="user-dashboard loader-holder" style="width:550px;">
+                    <h4 class="text-center" style="margin-bottom: 0;">DELIVERY ADDRESS</h4>
+                    <p class="text-center">Update Your Delivery Address Details here....!</p>
+                    <hr>
+                    <div id="restaurant-sets-holder">
+        <form class="form-fields-set foodbakery-dev-restaurant-form" method="POST" action="">
+            <div class="row">
+                <div class="col">
+                    <ul>
+                        <li></li>
+                            <div class="col-md-12">
+                                <label>First name</label>{{ form.first_name}}
+                            </div>
+                        </li>
+                        <li>
+                            <div class="col-md-12">
+                                <label>Last name</label>{{ form.last_name}}
+                            </div>
+                        </li>
+                        <li>
+                            <div class="col-md-12">
+                                    <label for="">Email</label> {{ form.email}}
+                            </div>
+                        </li>
+                        <li>
+                            <div class="col-md-12">
+                                    <label for="">Phone</label> {{ form.phone}}
+                            </div>
+                        </li> 
+                        <li>
+                            <div class="col-md-12">
+                                    <label for="">Address</label> {{ form.address}}
+                            </div>
+                        </li>
+                        <li>
+                            <div class="col-md-12">
+                                    <label for="">City</label> {{ form.city}}
+                            </div>
+                        </li> 
+                        <li>
+                            <div class="col-md-12">
+                                    <label for="">State</label> {{ form.state}}
+                            </div>
+                        </li> 
+                        <li>
+                            <div class="col-md-12">
+                                    <label for="">Pin code</label> {{ form.pin_code}}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div>
+                
+            </div>
+
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- address form end -->
+    </div>
+</div>
+</div>
+
+        </form>
+
+{% endblock%}
+
