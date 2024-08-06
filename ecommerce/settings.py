@@ -57,7 +57,6 @@ INSTALLED_APPS = [
 
     'bootstrap5',
 
-    # "whitenoise.runserver_nostatic",
 
 ]
 
@@ -68,7 +67,6 @@ RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY')
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
-    # "whitenoise.middleware.WhiteNoiseMiddleware",
 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -78,14 +76,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# white noice
 
-# STORAGES = {
-#     # ...
-#     "staticfiles": {
-#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-#     },
-# }
 
 # password hasher list
 
@@ -140,6 +131,7 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'accounts.User'
 
+DATABASES['default'] = "postgresql://foodhub_7o4o_user:7kGnq1CbpNHdFXUlJ6JTM1wjoCqphBnZ@dpg-cqosqpogph6c73fc22n0-a.singapore-postgres.render.com/foodhub_7o4o"
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
